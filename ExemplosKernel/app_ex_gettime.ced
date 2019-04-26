@@ -1,0 +1,77 @@
+
+;----------------------------------------------------------------------------------------------------
+;
+;	Exemplo de uso de GETTIME
+;
+;----------------------------------------------------------------------------------------------------
+;
+
+;------------------------------------------------------------------------------
+; Definição de endereços necessários para o desenvolvimento da aplicação
+;------------------------------------------------------------------------------
+_APP:		equ	h0100		; inicio da APP
+_SISTEMA:	equ	h0080		; area das syscall
+
+
+;----------------------------------------------------------------------------------------------------
+;	Funções usadas para ler/escrever no relógio
+;		0			-> 		BOOL(r0)	kbhit(void)
+;		1			-> 		CHAR(r0)	getchar(void)
+;		2			-> 		UNSIGNED SHORT(r0)	gettime(void)
+;		3			-> 		VOID	putchar(CHAR(r0); INT(r1))
+;		4			-> 		VOID	putmsg(CHAR*(r0); INT(r1))
+;----------------------------------------------------------------------------------------------------
+;	r5 -> indica a função
+kbhit:		equ		0
+getchar:	equ		1
+gettime:	equ		2
+putchar:	equ		3
+putmsg:		equ		4
+
+
+	org	_APP
+	
+	;
+	; INICIAR SEU PROGRAMA AQUI
+	;
+	
+	
+	mov		#gettime,r5			;			char = getchar();
+	jsr		r7,_SISTEMA
+	mov		r0,time
+	mov		#'A',char
+
+loop1:	
+	clr		pos
+loop:
+	mov		#gettime,r5
+	jsr		r7,_SISTEMA
+	cmp		r0,time
+	beq		loop
+	mov		r0,time
+	
+	mov		char,r0
+	mov		pos,r1				;			putchar(pos, char);
+	mov		#putchar,r5
+	jsr		r7,_SISTEMA
+	
+	inc		pos	
+	cmp		pos,#36
+	bne		loop
+	
+	inc		char
+	br		loop1
+	
+fim:
+	hlt
+	
+pos:	dw		0
+time:	dw		0
+char:	dw		0
+	
+	  
+
+
+
+
+
