@@ -34,8 +34,47 @@ putmsg:		equ		4
 	;
 	; INICIAR SEU PROGRAMA AQUI
 	;
-	
 
+;-------------------------------------------------------
+;ÁREA DE "#DEFINE"'S
+;-------------------------------------------------------
+enter: EQU 18
+;
+;-------------------------------------------------------
+
+
+MOV #putmsg, R5
+CLR R1
+MOV #mensagensIniciais, R0
+JSR R7, _SISTEMA
+
+Check1:
+MOV #getchar, R5
+JSR R7, _SISTEMA
+CMP R0, enter
+BNE Check1
+
+Check2:
+MOV #putmsg, R5
+CLR R1
+MOV #segundaMensagem, R0
+
+
+fim:
+	HLT
+
+ORG h0600
+mensagensIniciais:
+	DAB 'Gabriel Luiz Carpes Maria - 281952', 0
+segundaMensagem:
+	DAB 'Pressione ENTER para avançar', 0
+	DAB 'Quando iniciar o programa,', 0
+	DAB 'copie os caracteres exibidos.', 0
+	DAB 'Quando terminar, tecle ENTER para', 0
+	DAB 'ver o resultado e o tempo decorrido', 0
+	DAB 'Pronto? Tecle ENTER para iniciar', 0
+mensagemFinal:
+	DAB 'Novo jogo (J/j)? Ou terminar (T/t)?', 0
 
 
 

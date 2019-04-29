@@ -1,0 +1,16 @@
+Símbolo         Valor Decimal   Valor Hexadecimal
+-------         -------------   -----------------
+_APP                      256                 100
+_SISTEMA                  128                  80
+KBHIT                       0                   0
+GETCHAR                     1                   1
+GETTIME                     2                   2
+PUTCHAR                     3                   3
+PUTMSG                      4                   4
+LOOP1                     274                 112
+LOOP                      278                 116
+CONTINUA                  302                 12E
+FIM                       350                 15E
+POS                       351                 15F
+TIME                      353                 161
+CHAR                      355                 163

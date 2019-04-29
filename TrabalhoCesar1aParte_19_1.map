@@ -1,0 +1,16 @@
+Símbolo         Valor Decimal   Valor Hexadecimal
+-------         -------------   -----------------
+_APP                      256                 100
+_SISTEMA                  128                  80
+KBHIT                       0                   0
+GETCHAR                     1                   1
+GETTIME                     2                   2
+PUTCHAR                     3                   3
+PUTMSG                      4                   4
+ENTER                      18                  12
+CHECK1                    270                 10E
+CHECK2                    284                 11C
+FIM                       294                 126
+MENSAGENSINICIAIS        1536                 600
+SEGUNDAMENSAGEM          1571                 623
+MENSAGEMFINAL            1760                 6E0

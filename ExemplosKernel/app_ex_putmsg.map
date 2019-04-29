@@ -1,0 +1,11 @@
+Símbolo         Valor Decimal   Valor Hexadecimal
+-------         -------------   -----------------
+_APP                      256                 100
+_SISTEMA                  128                  80
+KBHIT                       0                   0
+GETCHAR                     1                   1
+GETTIME                     2                   2
+PUTCHAR                     3                   3
+PUTMSG                      4                   4
+MSG_EXEMPLO               287                 11F
+MSG_EXEMPLO2              295                 127
