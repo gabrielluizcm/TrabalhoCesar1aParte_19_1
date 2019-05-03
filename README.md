@@ -6,4 +6,14 @@ Especificação completa do trabalho em "..\EspecificacoesEReferencias\Especific
 Resumidamente, o programa deve exibir uma sequência alfanumérica de 8 caracteres e contar o tempo necessário para o usuário digitar essa sequência, correta ou incorretamente. Além disso, deverá comparar se a entrada do usuário é igual à sequencia fornecida pelo programa. A entrada deve tratar a tecla ENTER e BACKSPACE, além de considerar apenas teclas alfanuméricas.
 Os detalhes de como o processador interage com os periféricos (teclado, visor e timer) não serão trabalhados nesta parte da atividade, e sim gerenciados pelo kernel já fornecido (documentação do kernel em "..\EspecificacoesEReferencias\FuncoesDoKernel.pdf").
 
+Para utilizar o programa, deve ser aberto o executável do processador ("..\CesarEMontador\Wcesar16.13.5.2.exe) e carregado o kernel fornecido em ("..\EspecificacoesEReferencias\kernel_prof.mem") pela função Carregar (Ctrl + C). Com o kernel carregado, use a função Carregar Parcial (Ctrl + P) para carregar o programa em si, disponível em ("..\TrabalhoCesar1aParte_19_1.mem) usando os seguintes parâmetros:
+    -Endereço Inicial: 256
+    -Endereço Final: 32767
+    -Endereço de Destino: 256
+Seguindo estes passos, o programa está pronto para rodar teclando F9.
+
+As sequências a serem digitadas são semi-aleatórias, uma vez que já foram definidas na programação e são selecionadas com base no relógio do kernel.
+
+O arquivo fonte ("..\TrabalhoCesar1aParte_19_1.ced") pode ser lido em qualquer editor de texto e montado usando o montador Daedalus fornecido em ("..\CesarEMontador\Daedalus.1.0.6.1.exe").
+
 Qualquer cópia do código, seja parcial ou total, é expressamente proibida, tendo em vista a anulação do trabalho para todas as partes caso constatado plágio.

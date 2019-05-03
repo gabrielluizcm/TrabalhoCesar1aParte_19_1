@@ -39,6 +39,16 @@ putmsg:		equ		4
 ;ÁREA DE "#DEFINE"'S
 ;-------------------------------------------------------
 	enter: EQU 13
+	backspace: EQU 8
+	espaco: EQU 32
+	numero0: EQU 48
+	numero9: EQU 57
+	letraAM: EQU 65
+	letraZM: EQU 90
+	letraa: EQU 97
+	letraz: EQU 122
+	underscore: EQU 95
+	inicioVisor: EQU 65500
 ;-------------------------------------------------------
 
 
@@ -60,22 +70,151 @@ Check1:
 	JMP loopInicial
 
 inicioEtapa3:
-	MOV #gettime, R5
-	JSR R7, _SISTEMA
-	MOV R0, tempoInicial
-	AND R0, #h00FF
 	CLR R1
-	MOV R0, R4
 	MOV #putmsg, R5
 	MOV #limpaVisor, R0
 	JSR R7, _SISTEMA
-	CLR R1
+	MOV #gettime, R5
+	JSR R7, _SISTEMA
+	MOV R0, tempoInicial
+	AND #15, R0
+	MOV R0, R2
 	MOV #sequenciasTexto, R4
-	MOV h0001(R4), R0
+passoIndice:
+	TST R2
+	BEQ deslocado
+	ADD #13, R4
+	DEC R2
+	JMP passoIndice
+deslocado:
+	CLR R1
+	MOV R4, R0
 	MOV #putmsg, R5
 	JSR R7, _SISTEMA
 
-fim:
+	DEC R1
+main:
+	MOV #getchar, R5
+	JSR R7, _SISTEMA
+
+	CMP R0, #backspace
+	BLT main
+	BEQ rotinaBackspace
+
+	CMP R0, #enter
+	BLT main
+	BEQ encerramento
+
+	CMP R0, #numero0
+	BLT main
+	BEQ rotinaDigito
+	CMP R0, #numero9
+	BLE rotinaDigito
+
+	CMP R0, #letraAM
+	BLT main
+	BEQ rotinaDigito
+	CMP R0, #letraZM
+	BLE rotinaDigito
+
+	CMP R0, #letraa
+	BLT main
+	BEQ rotinaDigito
+	CMP R0, #letraz
+	BLE rotinaDigito
+	BR main
+	
+rotinaDigito:
+	CMP R1, #18
+	BGT main
+	MOV #putchar, R5
+	JSR R7, _SISTEMA
+	INC R1
+	MOV #underscore, R0
+	MOV #putchar, R5
+	JSR R7, _SISTEMA
+	BR main
+rotinaBackspace:
+	CMP R1, #12
+	BLT main
+	MOV #putchar, R5
+	MOV #espaco, R0
+	JSR R7, _SISTEMA
+	DEC R1
+	MOV #putchar, R5
+	MOV #underscore, R0
+	JSR R7, _SISTEMA
+	JMP main
+encerramento:
+	MOV #gettime, R5
+	JSR R7, _SISTEMA
+	MOV R0, tempoFinal
+	MOV #inicioVisor, R3
+	MOV #inicioVisor+11, R4
+	MOV #7, R2
+correcao:
+	TST R2
+	BEQ fim
+	CMP (R3), (R4)
+	BNE fim
+	INC R3
+	INC R4
+	DEC R2
+	BR correcao
+
+fim:	
+	TST R2
+	BEQ acerto
+	MOV #errado, R0
+	BR erro
+acerto:
+	MOV #certo, R0
+erro:
+	MOV #putmsg, R5
+	MOV #19, R1
+	JSR R7, _SISTEMA
+
+	MOV tempoFinal, R4
+	SUB tempoInicial, R4
+	CLR R0
+loopCentena:
+	CMP R4, #100
+	BLT menorQueCem
+	SUB #100, R4
+	INC R0
+	BR loopCentena
+
+menorQueCem:
+	TST R0
+	BEQ loopDezena
+	ADD #numero0, R0
+	MOV #29, R1
+	MOV #putchar, R5
+	JSR R7, _SISTEMA
+	CLR R0
+
+loopDezena:
+	CMP R4, #10
+	BLT menorQueDez
+	SUB #10, R4
+	INC R0
+	BR loopDezena
+
+menorQueDez:
+	TST R0
+	BEQ unidades
+	ADD #numero0, R0
+	MOV #30, R1
+	MOV #putchar, R5
+	JSR R7, _SISTEMA
+	CLR R0
+
+unidades:
+	MOV R4, R0
+	ADD #numero0, R0
+	MOV #31, R1
+	MOV #putchar, R5
+	JSR R7, _SISTEMA
 	HLT
 
 ORG h0600
@@ -90,25 +229,29 @@ stringsIniciais:
 	DAB 'ver o resultado e o tempo decorrido ', 0
 	DAB 'Pronto? Tecle ENTER para iniciar    ', 0
 tempoInicial:
-	DAB 0
+	DW 1
 tempoFinal:
-	DAB 0
+	DW 1
 sequenciasTexto:
-	DAB 'GabrielL'	;i = 0
-	DAB '00281952'	;i = 1
-	DAB '0A0B0C0D'	;i = 2
-	DAB '1a2b3c4d'	;i = 3
-	DAB 'aCBd1342'	;i = 4
-	DAB 'x2My2Iz2'	;i = 5
-	DAB 'inf01108'	;i = 6
-	DAB '80110FNI'	;i = 7
-	DAB 'CeSaR16i'	;i = 8
-	DAB 'T3xt0c8b'	;i = 9
-	DAB 'AlfabetO'	;i = 10
-	DAB '4lfAnum3'	;i = 11
-	DAB 'Y4sm1n3e'	;i = 12
-	DAB 'Av3ngerS'	;i = 13
-	DAB 'Ultim4t0'	;i = 14
-	DAB 'Arq12019'	;i = 15
-mensagemFinal:
+	DAB 'GabrielL : _', 0	;i = 0
+	DAB '00281952 : _', 0	;i = 1
+	DAB '0A0B0C0D : _', 0	;i = 2
+	DAB '1a2b3c4d : _', 0	;i = 3
+	DAB 'aCBd1342 : _', 0	;i = 4
+	DAB '02My2Iz2 : _', 0	;i = 5
+	DAB 'inf01108 : _', 0	;i = 6
+	DAB '80110FNI : _', 0	;i = 7
+	DAB 'CeSaR16i : _', 0	;i = 8
+	DAB 'T30t0c8b : _', 0	;i = 9
+	DAB 'Alfabet0 : _', 0	;i = 10
+	DAB '4lfAnum3 : _', 0	;i = 11
+	DAB 'Y4sm1n3e : _', 0	;i = 12
+	DAB 'Av3ngerS : _', 0	;i = 13
+	DAB 'Ultim4t0 : _', 0	;i = 14
+	DAB 'Arq12019 : _', 0	;i = 15
+certo:
+	DAB ' - certo,     seg', 0
+errado:
+	DAB ' - errou,     seg', 0
+mensagensFinal:
 	DAB 'Novo jogo (J/j)? Ou terminar (T/t)? ', 0
