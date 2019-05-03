@@ -44,8 +44,12 @@ putmsg:		equ		4
 	numero0: EQU 48
 	numero9: EQU 57
 	letraAM: EQU 65
+	Jmaius: EQU 74
+	Tmaius: EQU 84
 	letraZM: EQU 90
 	letraa: EQU 97
+	Jmin: EQU 106
+	Tmin: EQU 116
 	letraz: EQU 122
 	underscore: EQU 95
 	inicioVisor: EQU 65500
@@ -123,7 +127,7 @@ main:
 	CMP R0, #letraz
 	BLE rotinaDigito
 	BR main
-	
+
 rotinaDigito:
 	CMP R1, #18
 	BGT main
@@ -152,6 +156,7 @@ encerramento:
 	MOV #inicioVisor, R3
 	MOV #inicioVisor+11, R4
 	MOV #7, R2
+
 correcao:
 	TST R2
 	BEQ fim
@@ -215,6 +220,42 @@ unidades:
 	MOV #31, R1
 	MOV #putchar, R5
 	JSR R7, _SISTEMA
+
+jogarDeNovo:
+	MOV #getchar, R5
+	JSR R7, _SISTEMA
+	CMP R0, #enter
+	BNE jogarDeNovo
+	CLR R1
+	MOV #mensagemFinal, R0
+	MOV #putmsg, R5
+	JSR R7, _SISTEMA
+
+pergunta:
+	MOV #getchar, R5
+	JSR R7, _SISTEMA
+	CMP R0, #Jmaius
+	BLT pergunta
+	BGT pulo1
+	JMP inicioEtapa3
+pulo1:
+	CMP R0, #Tmaius
+	BLT pergunta
+	BEQ halt
+	CMP R0, #Jmin
+	BLT pergunta
+	BGT pulo2
+	JMP inicioEtapa3
+pulo2:
+	CMP R0, #Tmin
+	BNE pergunta
+	BEQ halt
+
+halt:
+	MOV #putmsg, R5
+	CLR R1
+	MOV #encerrado, R0
+	JSR R7, _SISTEMA
 	HLT
 
 ORG h0600
@@ -253,5 +294,7 @@ certo:
 	DAB ' - certo,     seg', 0
 errado:
 	DAB ' - errou,     seg', 0
-mensagensFinal:
+mensagemFinal:
 	DAB 'Novo jogo (J/j)? Ou terminar (T/t)? ', 0
+encerrado:
+	DAB 'Programa Encerrado!                 ', 0

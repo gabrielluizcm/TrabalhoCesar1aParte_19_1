@@ -13,8 +13,12 @@ ESPACO                     32                  20
 NUMERO0                    48                  30
 NUMERO9                    57                  39
 LETRAAM                    65                  41
+JMAIUS                     74                  4A
+TMAIUS                     84                  54
 LETRAZM                    90                  5A
 LETRAA                     97                  61
+JMIN                      106                  6A
+TMIN                      116                  74
 LETRAZ                    122                  7A
 UNDERSCORE                 95                  5F
 INICIOVISOR             65500                FFDC
@@ -36,6 +40,11 @@ MENORQUECEM               588                 24C
 LOOPDEZENA                610                 262
 MENORQUEDEZ               624                 270
 UNIDADES                  646                 286
+JOGARDENOVO               664                 298
+PERGUNTA                  692                 2B4
+PULO1                     712                 2C8
+PULO2                     732                 2DC
+HALT                      740                 2E4
 LIMPAVISOR               1536                 600
 STRINGSINICIAIS          1573                 625
 TEMPOINICIAL             1832                 728
@@ -43,4 +52,5 @@ TEMPOFINAL               1834                 72A
 SEQUENCIASTEXTO          1836                 72C
 CERTO                    2044                 7FC
 ERRADO                   2062                 80E
-MENSAGENSFINAL           2080                 820
+MENSAGEMFINAL            2080                 820
+ENCERRADO                2117                 845
