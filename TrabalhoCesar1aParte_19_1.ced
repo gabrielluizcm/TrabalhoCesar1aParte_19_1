@@ -38,45 +38,77 @@ putmsg:		equ		4
 ;-------------------------------------------------------
 ;ÁREA DE "#DEFINE"'S
 ;-------------------------------------------------------
-enter: EQU 18
-;
+	enter: EQU 13
 ;-------------------------------------------------------
 
 
-MOV #putmsg, R5
-CLR R1
-MOV #mensagensIniciais, R0
-JSR R7, _SISTEMA
+	MOV #stringsIniciais, R4
+loopInicial:
+	CMP R4, #tempoInicial	;posição após a última string inicial
+	BEQ inicioEtapa3
+	MOV #putmsg, R5
+	CLR R1
+	MOV R4, R0
+	ADD #37, R4	;avança R4 para a próxima string
+	JSR R7, _SISTEMA
 
 Check1:
-MOV #getchar, R5
-JSR R7, _SISTEMA
-CMP R0, enter
-BNE Check1
+	MOV #getchar, R5
+	JSR R7, _SISTEMA
+	CMP R0, #enter
+	BNE Check1
+	JMP loopInicial
 
-Check2:
-MOV #putmsg, R5
-CLR R1
-MOV #segundaMensagem, R0
-
+inicioEtapa3:
+	MOV #gettime, R5
+	JSR R7, _SISTEMA
+	MOV R0, tempoInicial
+	AND R0, #h00FF
+	CLR R1
+	MOV R0, R4
+	MOV #putmsg, R5
+	MOV #limpaVisor, R0
+	JSR R7, _SISTEMA
+	CLR R1
+	MOV #sequenciasTexto, R4
+	MOV h0001(R4), R0
+	MOV #putmsg, R5
+	JSR R7, _SISTEMA
 
 fim:
 	HLT
 
 ORG h0600
-mensagensIniciais:
-	DAB 'Gabriel Luiz Carpes Maria - 281952', 0
-segundaMensagem:
-	DAB 'Pressione ENTER para avançar', 0
-	DAB 'Quando iniciar o programa,', 0
-	DAB 'copie os caracteres exibidos.', 0
-	DAB 'Quando terminar, tecle ENTER para', 0
-	DAB 'ver o resultado e o tempo decorrido', 0
-	DAB 'Pronto? Tecle ENTER para iniciar', 0
+limpaVisor:
+	DAB '                                    ', 0
+stringsIniciais:
+	DAB 'Gabriel Luiz Carpes Maria - 281952  ', 0
+	DAB 'Pressione ENTER para avancar        ', 0
+	DAB 'Quando iniciar o programa,          ', 0
+	DAB 'copie os caracteres exibidos.       ', 0
+	DAB 'Quando terminar, tecle ENTER para   ', 0
+	DAB 'ver o resultado e o tempo decorrido ', 0
+	DAB 'Pronto? Tecle ENTER para iniciar    ', 0
+tempoInicial:
+	DAB 0
+tempoFinal:
+	DAB 0
+sequenciasTexto:
+	DAB 'GabrielL'	;i = 0
+	DAB '00281952'	;i = 1
+	DAB '0A0B0C0D'	;i = 2
+	DAB '1a2b3c4d'	;i = 3
+	DAB 'aCBd1342'	;i = 4
+	DAB 'x2My2Iz2'	;i = 5
+	DAB 'inf01108'	;i = 6
+	DAB '80110FNI'	;i = 7
+	DAB 'CeSaR16i'	;i = 8
+	DAB 'T3xt0c8b'	;i = 9
+	DAB 'AlfabetO'	;i = 10
+	DAB '4lfAnum3'	;i = 11
+	DAB 'Y4sm1n3e'	;i = 12
+	DAB 'Av3ngerS'	;i = 13
+	DAB 'Ultim4t0'	;i = 14
+	DAB 'Arq12019'	;i = 15
 mensagemFinal:
-	DAB 'Novo jogo (J/j)? Ou terminar (T/t)?', 0
-
-
-
-
-
+	DAB 'Novo jogo (J/j)? Ou terminar (T/t)? ', 0
