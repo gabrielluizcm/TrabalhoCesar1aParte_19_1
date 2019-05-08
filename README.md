@@ -1,3 +1,7 @@
+#IMPORTANTE
+A parte de comparação da string digitada com a string a ser copiada foi feita de maneira errônea, acessando diretamente a memória do visor (periférico), algo que só deferia ser feito pelo kernel, não pela app.
+Apesar do programa estar funcionando, ele será atualizado futuramente para que a app não acesse áreas de memória não permitidas.
+
 # TrabalhoCesar1aParte_19_1
 Trabalho do Cesar (primeira parte) para a cadeira de ARQ1 (2019/1), contendo arquivo fonte em .ced
 
